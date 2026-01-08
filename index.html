@@ -221,6 +221,7 @@
             <li><a href="#sub2">2. Fluxo de Compatibilização</a></li>
             <li><a href="#sub3">3. BIM como Gestão</a></li>
             <li><a href="#sub4">4. Orçamento</a></li>
+            <li><a href="#sub5">5. Avançado</a></li>
             <li><a href="#dashboard-section">Quadro de Prioridades</a></li>
         </ul>
     </nav>
@@ -543,7 +544,64 @@
             </tbody>
         </table>
     </section>
-
+<section id="sub5">
+        <h2>5. Avançado</h2>
+        <div class="description-generic" contenteditable="true">IMPORTANTE: A base dos usos BIM mais avançado é um fluxo de trabalho previsivel e um modelo organizado Avançar nos itens anteriores é a base para usos mais avançados de um modelo BIM</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>DESCRIÇÃO</th>
+                    <th>GANHOS</th>
+                    <th>NECESSIDADES</th>
+                    <th>PRIORIDADE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Automações diversas dos nossos processos</td>
+                    <td contenteditable="true">• Maior agilidade e qualidade na modelagem<br><br>• Diminuição do trabalho manual<br><br>• Maior padronização da qualidade dos projetos desenvolvidos na empresa</td>
+                    <td contenteditable="true">• Padronização dos processos como descrito nos itens anteriores<br><br>• Cumprimento do BIM mandate pela equipe de arquitetura<br><br>• Criação de um sub-setor de plug-ins dentro do setor de BIM</td>
+                    <td>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Média</option>
+                            <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Acompanhamento de execução por modelo BIM</td>
+                    <td contenteditable="true">• Comparativo preciso entre 'Planejado vs. Executado' em tempo real<br><br>• Agilidade e precisão nas medições de empreiteiros<br><br>• Redução drástica de dúvidas e RFI (Request for Information) no canteiro de obras</td>
+                    <td contenteditable="true">• Infraestrutura de TI no canteiro (tablets, internet estável e CDE móvel)<br><br>• Integração dos dados do modelo com software de planejamento (ex: MS Project/Primavera) e orçamento<br><br>• Treinamento da equipe de campo para consumo de informações via modelo (não apenas desenhos 2D)<br><br>• Rastreabilidade total do histórico de intervenções nos equipamentos<br><br>• Maiores estudos se fazem necessários, contratações podem ser necessária também</td>
+                    <td>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Média</option>
+                            <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Gestão de ativos por modelo BIM</td>
+                    <td contenteditable="true">• Centralização de dados de manutenção e garantias<br><br>• Planejamento otimizado de manutenções preventivas e preditivas (BIM 6D/7D)<br><br>• Redução dos custos operacionais durante o ciclo de vida do edifício</td>
+                    <td contenteditable="true">• Entrega de um Modelo 'As-Built' fidedigno (atualizado conforme o construído)<br><br>• Preenchimento rigoroso de parâmetros não-geométricos (fabricante, vida útil, data de instalação etc)<br><br>• Software de Gestão de Facilidades (FM) capaz de ler e integrar com a base de dados BIM<br><br>• Maiores estudos se fazem necessários, contratações podem ser necessária também</td>
+                    <td>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Média</option>
+                            <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
     <section id="dashboard-section">
         <h2 style="margin-top:0; border:none; text-align:center;">Resumo de Prioridades (Atualização Automática)</h2>
         <div class="dashboard-container">
