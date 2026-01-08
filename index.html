@@ -1,36 +1,36 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+<html lang="pt-BR"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planejamento 2026 - Implementação BIM</title>
+    <title>Planejamento BIM 2026</title>
     <style>
         :root {
-            --primary-color: #005f73;
+            --primary-color: #003865;
             --secondary-color: #0a9396;
             --accent-color: #ee9b00;
-            --light-bg: #e9d8a6;
-            --text-color: #333;
+            --high-prio: #ae2012;
+            --mid-prio: #e67700;
+            --low-prio: #2b8a3e;
+            --def-prio: #6c757d;
             --white: #ffffff;
+            --bg-gray: #f4f4f4;
         }
 
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
-            color: var(--text-color);
-            background-color: #f4f4f4;
-            max-width: 1280px;
+            color: #333;
+            background-color: var(--bg-gray);
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        /* Menu de Navegação */
+        /* Menu */
         nav {
             background-color: var(--primary-color);
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         nav ul {
             list-style: none;
@@ -47,26 +47,22 @@
             font-weight: bold;
             padding: 8px 12px;
             border-radius: 4px;
-            transition: background 0.3s;
         }
         nav a:hover {
             background-color: var(--secondary-color);
         }
 
+        h1, h2 { color: var(--primary-color); }
         h1 {
             text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 40px;
             border-bottom: 3px solid var(--accent-color);
-            display: inline-block;
             padding-bottom: 10px;
+            margin-bottom: 40px;
         }
-
         h2 {
-            color: var(--secondary-color);
-            margin-top: 40px;
             border-left: 5px solid var(--accent-color);
             padding-left: 15px;
+            margin-top: 40px;
         }
 
         /* Área Editável Genérica */
@@ -79,13 +75,13 @@
             border-radius: 4px;
             cursor: text;
         }
-        
+        /* Remove o outline azul ao clicar */
         .description-generic:focus, [contenteditable="true"]:focus {
             outline: 2px solid var(--accent-color);
             background-color: #fff;
         }
 
-        /* Links Específicos */
+        /* Links ACC */
         .acc-links {
             margin-top: 10px;
             font-weight: bold;
@@ -100,11 +96,8 @@
             margin-right: 10px;
             font-size: 0.9em;
         }
-        .acc-links a:hover {
-            background-color: var(--secondary-color);
-        }
 
-        /* Tabelas */
+        /* Tabela */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -113,156 +106,111 @@
             margin-bottom: 30px;
             border-radius: 8px;
             overflow: hidden;
+            table-layout: fixed;
         }
-
         th, td {
-            padding: 15px;
+            padding: 10px 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
             vertical-align: top;
+            word-wrap: break-word;
         }
-
         th {
             background-color: var(--primary-color);
             color: var(--white);
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
-        tr:hover {
-            background-color: #f1f1f1;
-        }
+        /* Larguras das Colunas */
+        th:nth-child(1) { width: 20%; } /* Descrição */
+        th:nth-child(2) { width: 32.5%; } /* Ganhos */
+        th:nth-child(3) { width: 32.5%; } /* Necessidades */
+        th:nth-child(4) { width: 15%; } /* Prioridade */
 
-        /* Colunas Específicas */
-        th:nth-child(1) { width: 30%; } /* Descrição */
-        th:nth-child(2) { width: 25%; } /* Ganhos */
-        th:nth-child(3) { width: 25%; } /* Necessidades */
-        th:nth-child(4) { width: 20%; } /* Prioridade */
-
-        /* Células Editáveis */
-        td[contenteditable="true"] {
-            cursor: text;
-        }
         td[contenteditable="true"]:hover {
             background-color: #fffbe6;
+            cursor: text;
         }
 
-        /* Dropdown de Prioridade */
         select.priority-select {
-            padding: 8px;
+            padding: 6px;
             border-radius: 4px;
             border: 1px solid #ccc;
             width: 100%;
             font-weight: bold;
             cursor: pointer;
         }
-        option[value="Alta"] { color: #d00000; }
-        option[value="Media"] { color: #e67700; }
-        option[value="Baixa"] { color: #2b8a3e; }
 
-        /* Botão de Download */
-        .download-btn-container {
-            text-align: center;
-            margin-top: 50px;
-            margin-bottom: 50px;
-            padding: 20px;
+        /* Dashboard */
+        #dashboard-section {
             background-color: #e9ecef;
-            border-radius: 8px;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 50px;
         }
-        .btn-save {
-            background-color: var(--accent-color);
+        .dashboard-container {
+            display: flex;
+            gap: 15px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .board-column {
+            flex: 1;
+            min-width: 250px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .board-header {
+            padding: 12px;
             color: white;
-            font-size: 1.2rem;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        .bg-high { background-color: var(--high-prio); }
+        .bg-mid { background-color: var(--mid-prio); }
+        .bg-low { background-color: var(--low-prio); }
+        .bg-def { background-color: var(--def-prio); }
+
+        .board-content {
+            padding: 10px;
+            min-height: 150px;
+            background-color: #f8f9fa;
+        }
+        .board-item {
+            background: white;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 5px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        .item-high { border-left-color: var(--high-prio); }
+        .item-mid { border-left-color: var(--mid-prio); }
+        .item-low { border-left-color: var(--low-prio); }
+        .item-def { border-left-color: var(--def-prio); }
+
+        /* Botão */
+        .download-btn-container { text-align: center; margin: 40px 0; }
+        .btn-save {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.1rem;
             padding: 15px 30px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
         }
-        .btn-save:hover {
-            transform: scale(1.05);
-            background-color: #d68c00;
-        }
-
-        /* Linha do Tempo */
-        .timeline-container {
-            margin-top: 60px;
-            padding: 40px;
-            background: var(--white);
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .timeline {
-            position: relative;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 6px;
-            background-color: var(--secondary-color);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -3px;
-        }
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            background-color: inherit;
-            width: 50%;
-            box-sizing: border-box;
-        }
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 25px;
-            height: 25px;
-            right: -17px;
-            background-color: var(--white);
-            border: 4px solid var(--accent-color);
-            top: 15px;
-            border-radius: 50%;
-            z-index: 1;
-        }
-        .left { left: 0; }
-        .right { left: 50%; }
-        .left::before {
-            content: " ";
-            height: 0;
-            position: absolute;
-            top: 22px;
-            width: 0;
-            z-index: 1;
-            right: 30px;
-            border: medium solid var(--white);
-            border-width: 10px 0 10px 10px;
-            border-color: transparent transparent transparent var(--white);
-        }
-        .right::before {
-            content: " ";
-            height: 0;
-            position: absolute;
-            top: 22px;
-            width: 0;
-            z-index: 1;
-            left: 30px;
-            border: medium solid var(--white);
-            border-width: 10px 10px 10px 0;
-            border-color: transparent var(--white) transparent transparent;
-        }
-        .right::after { left: -16px; }
-        .timeline-content {
-            padding: 20px 30px;
-            background-color: #f9f9f9;
-            position: relative;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .timeline-content h3 { margin-top: 0; color: var(--primary-color); }
+        .btn-save:hover { background-color: var(--secondary-color); }
     </style>
 </head>
 <body>
@@ -272,22 +220,225 @@
             <li><a href="#sub1">1. ACC Implementado</a></li>
             <li><a href="#sub2">2. Fluxo de Compatibilização</a></li>
             <li><a href="#sub3">3. BIM como Gestão</a></li>
-            <li><a href="#sub4">4. Orçamento e Modelo</a></li>
-            <li><a href="#timeline">Linha do Tempo</a></li>
+            <li><a href="#sub4">4. Orçamento</a></li>
+            <li><a href="#dashboard-section">Quadro de Prioridades</a></li>
         </ul>
     </nav>
 
     <div style="text-align: center;">
-        <h1>Apresentação: Implementação BIM 2026</h1>
+        <h1>Implementação BIM 2026</h1>
+        <img src="assests/logo.svg" alt="Logo P. Avelar" style="max-width: 250px; height: auto; margin-top: 10px; margin-bottom: 30px;">
     </div>
 
     <section id="sub1">
         <h2>1. ACC Implementado</h2>
-        <div class="description-generic" contenteditable="true">
-            [CLIQUE AQUI PARA EDITAR A DESCRIÇÃO GENeeÉRICA]<br><br>
+       <div class="description-generic" contenteditable="true">O ACC (Autodesk Construction Cloud) É um CDE (Common Data Environment), um ambiente digital, usado para centralizar e organizar todas as informações do projeto de forma colaborativa.<br><br>
             <span class="acc-links" contenteditable="false">
-                <a href="https://acc.autodesk.com/docs/files/projects/57e1b419-4da4-41c7-84ea-3ef7a10a14de?folderUrn=urn%3Aadsk.wipprod%3Afs.folder%3Aco.wAT0xmQoS6yyearPjeoglA&entityId=urn%3Aadsk.wipprod%3Adm.lineage%3A1ItHslknR_CkyjIEUiVdEw&viewModel=detail&moduleId=folders&viewableGuid=5a6e164c-c3ce-e59c-d03c-77c05cdab74d&issueId=46471508-efc2-48df-ba0a-e4bdefa15618" target="_blank">LINK ACC</a>
-                <a href="file:///G:/Meu Drive/ACC - APRESENTAÇÃO/Modelo de Apresentação.pptx">APRESENTAÇÃO ACC</a>
+                <a href="https://acc.autodesk.com/docs/files/projects/57e1b419-4da4-41c7-84ea-3ef7a10a14de?folderUrn=urn%3Aadsk.wipprod%3Afs.folder%3Aco.wAT0xmQoS6yyearPjeoglA&amp;entityId=urn%3Aadsk.wipprod%3Adm.lineage%3A1ItHslknR_CkyjIEUiVdEw&amp;viewModel=detail&amp;moduleId=folders&amp;viewableGuid=5a6e164c-c3ce-e59c-d03c-77c05cdab74d&amp;issueId=46471508-efc2-48df-ba0a-e4bdefa15618" target="_blank">LINK ACC</a>
+                <a href="https://docs.google.com/presentation/d/1hHySoKFYg7LxA_DUg0Vp07XmsgoZ24h4/edit?slide=id.p1#slide=id.p1" target="_blank">APRESENTAÇÃO ACC</a>
+                <a href="https://app.powerbi.com/view?r=eyJrIjoiODE2NDZiMTItZGRmMC00NmNjLWJiYWQtNmZmM2Q0YzFhZThjIiwidCI6ImFlZDMxNzc5LTU4ZjctNDFjZC04MjY1LTI1MmI5ZTJkNjY1OCJ9" target="_blank">DASHBOARD DE ISSUES</a>
+            </span>
+        </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>DESCRIÇÃO</th>
+                    <th>GANHOS</th>
+                    <th>NECESSIDADES</th>
+                    <th>PRIORIDADE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ACC Para liderança</td>
+                    <td contenteditable="true">• Análise de modelos e compatibilização descentralizada
+<br><br>• Toda liderança pode acompanhar a evolução do modelo federado com facilidade e acompanhar 
+</td>
+                    <td contenteditable="true">• Relocar algumas de nossas licenças, necessário garantir que toda a liderança das equipes de projeto tenham acesso à plataforma
+<br><br>• Treinamento simples para uso da plataforma
+</td>
+                    <td>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Média</option>
+                            <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>ACC Para toda equipe técnica</td>
+                    <td contenteditable="true">• Todos os itens anteriores
+<br><br>• Revisão de prancha dentro do ACC, permitindo controle e quantificação de todos os problemas e erros apontados no projeto 
+<br><br>• Controle do fluxo de aprovação do projeto
+
+</td>
+                    <td contenteditable="true">• Adquirir mais licenças do ACC, é necessário ter 1 para cada profissional da equipe de projeto
+<br><br>• Possivelmente contratação de mais um Analista BIM. Profissional deve atuar como ADMINISTRADOR DE CDE e INFORMATION MANAGER
+<br><br>• Treinamento para uso da plataforma e elaboração de projeto piloto
+
+</td>
+                    <td>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Média</option>
+                            <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>ACC Para toda empresa</td>
+                    <td contenteditable="true">• Todos os itens anteriores
+<br><br>• Controle completo de todos os fluxos de todos os documentos e suas versões (necessário apresentar a plataforma para equipe de gestão para entender possibilidades)
+</td>
+                    <td contenteditable="true">• Adquirir mais licenças do ACC, é necessário ter 1 para todo e qualquer profissional envolvido com projetos
+<br><br>• Possivelmente contratação de mais um Analista BIM. Profissional deve atuar como ADMINISTRADOR DE CDE e INFORMATION MANAGER
+<br><br>• Treinamento para uso da plataforma, elaboração de projeto piloto, alinhamento com equipe de gestão sobre necessidades 
+
+</td>
+                    <td>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Média</option>
+                            <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>ACC Para todo nosso fluxo</td>
+                    <td contenteditable="true">• Todos os itens anteriores
+<br><br>• Qualquer problema apontado pelo cliente (erros de projeto, mudança de escopo, etc) modem ser medidos, acompanhados e organizados da mesma maneira que os problemas internos
+</td>
+                    <td contenteditable="true">• Adquirir mais licenças do ACC, é necessário ter 1 para todo e qualquer profissional envolvido com projetos. Incluindo clientes
+<br><br>• Indiscutivelmente contratação de mais um analista BIM para atuar como atuar como ADMINISTRADOR DE CDE e INFORMATION MANAGER<br><br>• Treinamento para uso da plataforma, elaboração de projeto piloto, alinhamento com equipe de gestão sobre necessidades, configurações da plataforma com as permissões dos cliente 
+
+</td>
+                    <td>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Média</option>
+                            <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>ACC com colaboração ao vivo</td>
+                    <td contenteditable="true">• Total integração do nosso ambiente de trabalho de gestão de projetos, sem a necessidade de fazer upload de arquivos do Google drive para o ACC
+<br><br>• Maiores possibilidades de colaboração (Necessário averiguar possibilidades)
+</td>
+                    <td contenteditable="true">• Além das licenças do ACC é necessário garantir que todos os projetistas tenham acesso ao pacote da Autodesk que inclua o Revit, usuário de Revit e login no ACC deve ser o mesmo. A licença deve ser do profissional, não da maquina
+<br><br>• Necessário maiores estudos do fluxo de trabalho e elaboração de um projeto piloto
+</td>
+                    <td>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Média</option>
+                            <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="sub2">
+        <h2>2. Fluxo de Compatibilização Completo</h2>
+        <div class="description-generic" contenteditable="true">
+            Fluxo de elaboração do projeto que permite uma modelagem coesa minimizando retrabalho por incompatibilidades</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>DESCRIÇÃO</th>
+                    <th>GANHOS</th>
+                    <th>NECESSIDADES</th>
+                    <th>PRIORIDADE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Compatibilização: Edificações</td>
+                    <td contenteditable="true">• Aumento da qualidade do modelo federado e redução de incompatibilidades<br><br>• Redução do retrabalho por conta do início de complementares em etapas nas quais a arquitetura ainda esteja sujeita a ajustes</td>
+                    <td contenteditable="true">• Fluxo de trabalho sequencial:
+<br>1 - Modelagem BIM da arquitetura
+<br>2 - Validação/correção da arquitetura
+<br>3 - Modelagem de estrutura
+<br>4 - Compatibilização Estrutura/Arquitetura
+<br>5 - Modelagem de instalações
+<br>6 - Compatibilização final
+<br><br>• Planejamento comprometido com cumprimento do fluxo. Caso necessário (ou desejável) sair desse fluxo é necessário listar possíveis problemas e prever tempo de correção dos projetos
+</td>
+                    <td>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Média</option>
+                            <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Compatibilização: Edificações e terraplenagem</td>
+                    <td contenteditable="true">• Todos os itens anteriores
+<br><br>• Menos retrabalho nos complementares por conta de mudanças da arquitetura incompatível com terraplenagem
+</td>
+                    <td contenteditable="true">• Fluxo de trabalho sequencial:
+<br>1 - Modelagem BIM da arquitetura
+<br>2 - Modelagem BIM da terraplenagem
+<br>3 - Compatibilização Arquitetura/Terraplenagem
+<br>4 - Validação/correção da arquitetura
+<br>5 - Modelagem de estrutura
+<br>6 - Compatibilização Estrutura/Arquitetura
+<br>7 - Modelagem de instalações
+<br>8 - Compatibilização final<br><br>• Adesão do planejamento descrita no item anterior</td>
+                    <td>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Média</option>
+                            <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Compatibilização: Edif., terraplenagem e topografia</td>
+                    <td contenteditable="true">• Todos os itens anteriores
+<br><br>• Menos retrabalho nos complementares por conta de mudanças da arquitetura incompatível com terraplenagem</td>
+                    <td contenteditable="true">• Fluxo de trabalho sequencial:
+<br>1 - Modelagem BIM da topografia
+<br>2 - Validação/correção dessa topografia
+<br>[etapas descritas no item anterior]<br><br>• Adesão do planejamento descrita no item anterior<br><br>• Possivelmente contratação de mais um Analista BIM. Profissional deve atuar como e INFORMATION MANAGER, principalmente se todo o fluxo de aprovação dos modelos for feito no ACC<br><br>• Necessidade de contratação de especialista BIM de infraestrutura para otimizar fluxo de trabalho e compatibilização de Infra/topografia/reurb</td>
+                    <td>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Média</option>
+                            <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="sub3">
+        <h2>3. BIM como Gestão</h2>
+        <div class="description-generic" contenteditable="true">
+            O processo BIM bem sucedido começa muito antes de qualquer modelagem, todas as informações necessárias para projetar devem ser concentradas em um BEP.<br><br>
+            <span class="acc-links" contenteditable="false">
+                <a href="https://docs.google.com/spreadsheets/d/1G_cPdrfI-xcpPN9tYv8YG1NT4GjFn501/edit?gid=1466015170#gid=1466015170" target="_blank">PLANILHA BEP</a>
             </span>
         </div>
         <table>
@@ -301,170 +452,30 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Para liderança</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[Inserir necessidades...]</td>
+                    <td>BEP mínimo</td>
+                    <td contenteditable="true">• Maior organização dos nossos arquivos, definição de nome e local de arquivo dês do início dos projetos<br><br>• Maior definição do nosso escopo, já que definir quais modelos serão feitos é definir escopo de projeto<br><br>• Possibilidade de acompanhar a cumprimento do documento</td>
+                    <td contenteditable="true">• Inclusão da equipe BIM nas primeiras etapas de projeto para elaboração do documento<br><br>• Treinamento da equipe técnica para cumprimento do documento</td>
                     <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
                             <option value="Alta">Alta</option>
                             <option value="Media">Média</option>
                             <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <td>Para toda equipe técnica</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[Inserir necessidades...]</td>
+                    <td>BEP completo</td>
+                    <td contenteditable="true">• Centralização de todas as informações necessárias para elaboração do projeto em um único documento</td>
+                    <td contenteditable="true">• Desenvolvimento do BEP em um sistema interno que concentre todas as informações necessária para a elaboração dos nossos modelos.<br><br>• Colaboração dos setores responsáveis pelo projeto, dês da captação, documentos como ata de captação ou requerimento devem ser "absorvidos" pelo BEP, caso a informação deles sejam relevantes para elaboração dos modelos<br><br>• Necessários maiores estudos dos processos da empresa</td>
                     <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
                             <option value="Alta">Alta</option>
                             <option value="Media">Média</option>
                             <option value="Baixa">Baixa</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Para toda empresa (incluindo clientes)</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[Talvez precise de adm CDE...]</td>
-                    <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
-                            <option value="Alta">Alta</option>
-                            <option value="Media">Média</option>
-                            <option value="Baixa">Baixa</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Para todo nosso fluxo</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[DEFINITIVAMENTE precisa de adm CDE...]</td>
-                    <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
-                            <option value="Alta">Alta</option>
-                            <option value="Media">Média</option>
-                            <option value="Baixa">Baixa</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>ACC com colaboração ao vivo</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[DEFINITIVAMENTE PRECISA DE ADMINISTRADOR DE CDE]</td>
-                    <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
-                            <option value="Alta">Alta</option>
-                            <option value="Media">Média</option>
-                            <option value="Baixa">Baixa</option>
-                        </select>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
-    <section id="sub2">
-        <h2>2. Fluxo de Compatibilização Completo</h2>
-        <div class="description-generic" contenteditable="true">
-            [CLIQUE AQUI PARA EDITAR A DESCRIÇÃO GENÉRICA DO FLUXO]
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>DESCRIÇÃO</th>
-                    <th>GANHOS</th>
-                    <th>NECESSIDADES</th>
-                    <th>PRIORIDADE</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Para edificações</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[Inserir necessidades...]</td>
-                    <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
-                            <option value="Alta">Alta</option>
-                            <option value="Media">Média</option>
-                            <option value="Baixa">Baixa</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Para edificações e terraplenagem</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[Considerar maior tempo de elaboração...]</td>
-                    <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
-                            <option value="Alta">Alta</option>
-                            <option value="Media">Média</option>
-                            <option value="Baixa">Baixa</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Para edificações, terraplenagem e topografia</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[Pessoa BIM INFRA + maior tempo...]</td>
-                    <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
-                            <option value="Alta">Alta</option>
-                            <option value="Media">Média</option>
-                            <option value="Baixa">Baixa</option>
-                        </select>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
-    <section id="sub3">
-        <h2>3. BIM como Gestão</h2>
-        <div class="description-generic" contenteditable="true">
-            [CLIQUE AQUI PARA EDITAR A DESCRIÇÃO GENÉRICA DE GESTÃO]
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>DESCRIÇÃO</th>
-                    <th>GANHOS</th>
-                    <th>NECESSIDADES</th>
-                    <th>PRIORIDADE</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Adoção de um BEP com todos modelos a serem elaborados</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[Inserir necessidades...]</td>
-                    <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
-                            <option value="Alta">Alta</option>
-                            <option value="Media">Média</option>
-                            <option value="Baixa">Baixa</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Adoção de um BEP com informações pertinentes a modelar</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[Inserir necessidades...]</td>
-                    <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
-                            <option value="Alta">Alta</option>
-                            <option value="Media">Média</option>
-                            <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
                         </select>
                     </td>
                 </tr>
@@ -474,9 +485,7 @@
 
     <section id="sub4">
         <h2>4. Orçamento 100% Baseado em Modelo</h2>
-        <div class="description-generic" contenteditable="true">
-            [CLIQUE AQUI PARA EDITAR A DESCRIÇÃO GENÉRICA DE ORÇAMENTO]
-        </div>
+        <div class="description-generic" contenteditable="true">Um excelente "termômetro" do nível de qualidade de um modelo BIM é o quão facilmente ele pode ser usando para a orçamentação do projeto.<div>Observação: Idealmente a orçamentação deve ser feita somente apos a compatibilização de projeto que está no item 4.</div></div>
         <table>
             <thead>
                 <tr>
@@ -489,40 +498,43 @@
             <tbody>
                 <tr>
                     <td>Controle de qualidade dos modelos</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[Inserir necessidades...]</td>
+                    <td contenteditable="true">• Maior qualidade dos modelos<br><br>• Maior agilidade na resolução dos problemas apontados pelo setor de BIM</td>
+                    <td contenteditable="true">• Maior capacitação da equipe de liderança para que possam verificar não apenas o projeto mas também a organização mínima do modelo e o atendimento a verificação BIM<br><br>&nbsp;</td>
                     <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
                             <option value="Alta">Alta</option>
                             <option value="Media">Média</option>
                             <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td>Todos os itens de projeto definidos em modelo</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[Inserir necessidades...]</td>
+                    <td contenteditable="true">• Todos os itens anteriores<br><br>• Modelo federado 100% completo<br><br>• Maior precisão na extração de quantitativos<br><br>• Modelo fidedigno com a realidade, incluindo todos os elementos que precisam ser previstos para ser utilizados para orçamentação, acompanhamento de obras, etc</td>
+                    <td contenteditable="true">• Inclusão de todos os elementos a serem quantificados em modelo<br><br>• Contratação de modelador BIM para o setor de estruturas que faça a modelagem de todos os itens que atualmente são feitos em CAD (como são projetos que já estão prontos em CAD pode aumentar o tempo de elaboração de elementos como escadas rampas, etc)<br><br>• Contratação de Especialista BIM com experiencia em orçamento&nbsp; dentro dessa metodologia (sugerido atuar diretamente no setor de orçamento antes de trabalhar no BIM). Reestruturação do processo de orçamento</td>
                     <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
                             <option value="Alta">Alta</option>
                             <option value="Media">Média</option>
                             <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td>Processo de orçamentação 100% voltada para o modelo</td>
-                    <td contenteditable="true">[Inserir ganhos...]</td>
-                    <td contenteditable="true">[Inserir necessidades...]</td>
+                    <td contenteditable="true">• Todos os itens anteriores<br><br>• Maior agilidade na elaboração dos orçamentos</td>
+                    <td contenteditable="true">• Contratação de Especialista BIM com experiencia em orçamento  dentro dessa metodologia (sugerido atuar diretamente no setor de orçamento antes de trabalhar diretamente no BIM). Reestruturação do processo de orçamento<br><br>• Reestruturar o processo de orçamento utilizando o modelo BIM (necessário maiores estudos)<br><br>• Compra de uma ferramenta de orçamento voltada para modelos (OcaBIM, Visus Cost Management, PriMus, Volare, etc). Pode ser um desenvolvimento interno</td>
                     <td>
-                        <select class="priority-select" onchange="this.setAttribute('data-selected', this.value)">
-                            <option value="">Selecione...</option>
+                        <select class="priority-select" onchange="updateDashboard()">
+                            <option value="" selected="selected">Selecione...</option>
                             <option value="Alta">Alta</option>
                             <option value="Media">Média</option>
                             <option value="Baixa">Baixa</option>
+                            <option value="A definir">A definir</option>
                         </select>
                     </td>
                 </tr>
@@ -530,44 +542,85 @@
         </table>
     </section>
 
-    <section id="timeline" class="timeline-container">
-        <h2 style="text-align: center; border: none;">Linha do Tempo Estimada (Por Prioridade)</h2>
-        <div class="timeline">
-            <div class="timeline-item left">
-                <div class="timeline-content" contenteditable="true">
-                    <h3>Fase 1: Prioridade Alta</h3>
-                    <p>Implementação imediata</p>
-                </div>
+    <section id="dashboard-section">
+        <h2 style="margin-top:0; border:none; text-align:center;">Resumo de Prioridades (Atualização Automática)</h2>
+        <div class="dashboard-container">
+            <div class="board-column">
+                <div class="board-header bg-high">Prioridade Alta</div>
+                <div class="board-content" id="board-high"></div>
             </div>
-            <div class="timeline-item right">
-                <div class="timeline-content" contenteditable="true">
-                    <h3>Fase 2: Prioridade Média</h3>
-                    <p>Desenvolvimento e Expansão</p>
-                </div>
+            <div class="board-column">
+                <div class="board-header bg-mid">Prioridade Média</div>
+                <div class="board-content" id="board-mid"></div>
             </div>
-            <div class="timeline-item left">
-                <div class="timeline-content" contenteditable="true">
-                    <h3>Fase 3: Prioridade Baixa</h3>
-                    <p>Maturação e Otimização</p>
-                </div>
+            <div class="board-column">
+                <div class="board-header bg-low">Prioridade Baixa</div>
+                <div class="board-content" id="board-low"></div>
             </div>
-             <div class="timeline-item right">
-                <div class="timeline-content" contenteditable="true">
-                    <h3>Conclusão 2026</h3>
-                    <p>BIM Full Implementado</p>
-                </div>
+            <div class="board-column">
+                <div class="board-header bg-def">A Definir</div>
+                <div class="board-content" id="board-def"></div>
             </div>
         </div>
     </section>
 
     <div class="download-btn-container">
-        <p>Preencha os campos, selecione as prioridades e clique abaixo para salvar sua versão:</p>
         <button class="btn-save" onclick="downloadPage()">BAIXAR ARQUIVO COM ALTERAÇÕES</button>
     </div>
 
     <script>
+        // SCRIPT NOVO: Limpa formatação ao colar
+        document.addEventListener('paste', function(e) {
+            // Verifica se o alvo é editável
+            if (e.target.isContentEditable) {
+                e.preventDefault(); // Impede a colagem normal (com formatação)
+                
+                // Pega apenas o texto puro da área de transferência
+                var text = (e.clipboardData || window.clipboardData).getData('text');
+                
+                // Insere o texto puro na posição do cursor
+                document.execCommand('insertText', false, text);
+            }
+        });
+
+        // Atualiza Dashboard
+        function updateDashboard() {
+            document.getElementById('board-high').innerHTML = '';
+            document.getElementById('board-mid').innerHTML = '';
+            document.getElementById('board-low').innerHTML = '';
+            document.getElementById('board-def').innerHTML = '';
+
+            const selects = document.querySelectorAll('select.priority-select');
+
+            selects.forEach(select => {
+                const priority = select.value;
+                if (priority) {
+                    const row = select.closest('tr');
+                    const description = row.cells[0].innerText;
+
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'board-item';
+                    itemDiv.innerText = description;
+
+                    if (priority === 'Alta') {
+                        itemDiv.classList.add('item-high');
+                        document.getElementById('board-high').appendChild(itemDiv);
+                    } else if (priority === 'Media') {
+                        itemDiv.classList.add('item-mid');
+                        document.getElementById('board-mid').appendChild(itemDiv);
+                    } else if (priority === 'Baixa') {
+                        itemDiv.classList.add('item-low');
+                        document.getElementById('board-low').appendChild(itemDiv);
+                    } else if (priority === 'A definir') {
+                        itemDiv.classList.add('item-def');
+                        document.getElementById('board-def').appendChild(itemDiv);
+                    }
+                }
+            });
+        }
+
+        // Salvar Arquivo
         function downloadPage() {
-            // Antes de baixar, fixa os valores dos selects no atributo 'selected' do HTML
             const selects = document.querySelectorAll('select');
             selects.forEach(select => {
                 const value = select.value;
@@ -581,15 +634,14 @@
                 });
             });
 
-            // Cria o blob do HTML atual
             const htmlContent = document.documentElement.outerHTML;
             const blob = new Blob([htmlContent], {type: 'text/html'});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = 'planejamento_bim_2026_editado.html';
+            a.download = 'Planejamento_BIM_2026.html';
             a.click();
         }
     </script>
 
-</body>
-</html>
+
+</body></html>
