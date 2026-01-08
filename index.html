@@ -413,12 +413,13 @@
                 </tr>
                 <tr>
                     <td>Compatibilização: Edif., terraplenagem e topografia</td>
-                    <td contenteditable="true">• Todos os itens anteriores
-<br><br>• Menos retrabalho nos complementares por conta de mudanças da arquitetura incompatível com terraplenagem</td>
-                    <td contenteditable="true">• Fluxo de trabalho sequencial:
-<br>1 - Modelagem BIM da topografia
-<br>2 - Validação/correção dessa topografia
-<br>[etapas descritas no item anterior]<br><br>• Adesão do planejamento descrita no item anterior<br><br>• Possivelmente contratação de mais um Analista BIM. Profissional deve atuar como e INFORMATION MANAGER, principalmente se todo o fluxo de aprovação dos modelos for feito no ACC<br><br>• Necessidade de contratação de especialista BIM de infraestrutura para otimizar fluxo de trabalho e compatibilização de Infra/topografia/reurb</td>
+                    <td contenteditable="true">• Todos os itens anteriores<br><br>• Menos retrabalho nos complementares por conta de mudanças da arquitetura incompatível com terraplenagem</td>
+                    <td contenteditable="true">• Fluxo de trabalho sequencial:<br>1 - Modelagem BIM da topografia<br>2 - Validação/correção dessa topografia<br>[etapas descritas no item anterior]<br><br>• Adesão do planejamento descrita no item anterior<br><br>• Possivelmente contratação de mais um Analista BIM. Profissional deve atuar como e INFORMATION MANAGER, principalmente se todo o fluxo de aprovação dos modelos for feito no ACC<br><br>• Necessidade de contratação de especialista BIM de infraestrutura para otimizar fluxo de trabalho e compatibilização de Infra/topografia/reurb
+                        <br><br>
+                        <span class="acc-links" contenteditable="false">
+                            <a href="#" onclick="abrirSugestao(event)">SUGESTÃO PARA O SISTEMA</a>
+                        </span>
+                    </td>
                     <td>
                         <select class="priority-select" onchange="updateDashboard()">
                             <option value="" selected="selected">Selecione...</option>
@@ -641,6 +642,153 @@
             a.href = URL.createObjectURL(blob);
             a.download = 'Planejamento_BIM_2026.html';
             a.click();
+        }
+        // FUNÇÃO PARA ABRIR O POPUP DA SUGESTÃO
+        function abrirSugestao(e) {
+            e.preventDefault(); 
+            
+            // AQUI ESTÁ O SEU HTML NOVO COMPLETO
+            const htmlContent = `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadro de Processos e Riscos</title>
+    <style>
+        /* --- VARIÁVEIS DE COR --- */
+        :root {
+            --primary-color: #003865; --secondary-color: #0a9396; --accent-color: #ee9b00;
+            --high-prio: #ae2012; --mid-prio: #e67700; --low-prio: #2b8a3e;
+            --def-prio: #6c757d; --white: #ffffff; --bg-gray: #f4f4f4;
+        }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-gray); padding: 20px; }
+
+        /* --- ESTILOS DA TABELA --- */
+        table { width: 100%; border-collapse: collapse; background-color: var(--white); box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; table-layout: fixed; margin-bottom: 20px; }
+        th, td { border-bottom: 1px solid #ddd; vertical-align: middle; word-wrap: break-word; }
+        th { background-color: var(--primary-color); color: var(--white); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; padding: 10px 0; text-align: center; }
+        th:first-child { text-align: left; padding-left: 15px; width: 40%; }
+        td:first-child { text-align: left; padding: 15px; font-weight: 500; font-size: 0.95rem; }
+        th:nth-child(2), th:nth-child(3), th:nth-child(4) { width: 20%; }
+
+        /* --- LÓGICA DA MATRIZ (RADIO BUTTONS) --- */
+        td.option-cell { padding: 0; height: 100%; border-left: 1px solid #eee; }
+        td.option-cell input[type="radio"] { display: none; }
+        td.option-cell label { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 65px; height: 100%; cursor: pointer; transition: all 0.2s ease; }
+        td.option-cell label:hover { background-color: #f0f0f0; }
+
+        /* Cores Selecionadas */
+        input.opt-green:checked + label { background-color: var(--low-prio); color: white; }
+        input.opt-orange:checked + label { background-color: var(--mid-prio); color: white; }
+        input.opt-red:checked + label { background-color: var(--high-prio); color: white; }
+
+        /* Ícone Check */
+        td.option-cell label::after { content: '✓'; font-size: 1.5rem; font-weight: bold; display: none; }
+        td.option-cell input:checked + label::after { display: block; }
+
+        /* --- ÁREA DE ALERTAS --- */
+        #alerts-container { display: flex; flex-direction: column; gap: 10px; }
+        .alert-box { display: none; padding: 15px 20px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); animation: fadeIn 0.4s ease-out; background-color: #fff3cd; border: 1px solid #ffeeba; border-left: 6px solid var(--mid-prio); color: #856404; }
+        .alert-box h3 { margin-top: 0; margin-bottom: 5px; font-size: 1rem; text-transform: uppercase; font-weight: 800; color: var(--mid-prio); }
+        .alert-box p { margin: 0; font-weight: 500; font-size: 0.95rem; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Processo</th>
+                <th>SEM ALTERAÇÃO</th>
+                <th>ADIADO</th>
+                <th>EXCLUÍDO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Compatibilização Arquitetura/Topografia</td>
+                <td class="option-cell"><input type="radio" id="r1-1" name="row1" class="opt-green" onclick="checkAlerts()" checked><label for="r1-1"></label></td>
+                <td class="option-cell"><input type="radio" id="r1-2" name="row1" class="opt-orange" onclick="checkAlerts()"><label for="r1-2"></label></td>
+                <td class="option-cell"><input type="radio" id="r1-3" name="row1" class="opt-red" onclick="checkAlerts()"><label for="r1-3"></label></td>
+            </tr>
+            <tr>
+                <td>Compatibilização Arquitetura/Terraplenagem</td>
+                <td class="option-cell"><input type="radio" id="r2-1" name="row2" class="opt-green" onclick="checkAlerts()"><label for="r2-1"></label></td>
+                <td class="option-cell"><input type="radio" id="r2-2" name="row2" class="opt-orange" onclick="checkAlerts()"><label for="r2-2"></label></td>
+                <td class="option-cell"><input type="radio" id="r2-3" name="row2" class="opt-red" onclick="checkAlerts()"><label for="r2-3"></label></td>
+            </tr>
+            <tr>
+                <td>Correção de Arquitetura Antes de complementares</td>
+                <td class="option-cell"><input type="radio" id="r3-1" name="row3" class="opt-green" onclick="checkAlerts()"><label for="r3-1"></label></td>
+                <td class="option-cell"><input type="radio" id="r3-2" name="row3" class="opt-orange" onclick="checkAlerts()"><label for="r3-2"></label></td>
+                <td class="option-cell"><input type="radio" id="r3-3" name="row3" class="opt-red" onclick="checkAlerts()"><label for="r3-3"></label></td>
+            </tr>
+            <tr>
+                <td>Compatibilização Arquitetura/Estrutura</td>
+                <td class="option-cell"><input type="radio" id="r4-1" name="row4" class="opt-green" onclick="checkAlerts()"><label for="r4-1"></label></td>
+                <td class="option-cell"><input type="radio" id="r4-2" name="row4" class="opt-orange" onclick="checkAlerts()"><label for="r4-2"></label></td>
+                <td class="option-cell"><input type="radio" id="r4-3" name="row4" class="opt-red" onclick="checkAlerts()"><label for="r4-3"></label></td>
+            </tr>
+            <tr>
+                <td>Compatibilização Instalações/Estrutura/Arquitetura</td>
+                <td class="option-cell"><input type="radio" id="r5-1" name="row5" class="opt-green" onclick="checkAlerts()"><label for="r5-1"></label></td>
+                <td class="option-cell"><input type="radio" id="r5-2" name="row5" class="opt-orange" onclick="checkAlerts()"><label for="r5-2"></label></td>
+                <td class="option-cell"><input type="radio" id="r5-3" name="row5" class="opt-red" onclick="checkAlerts()"><label for="r5-3"></label></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="alerts-container">
+        <div id="alert-1" class="alert-box">
+            <h3>Risco de Retrabalho</h3>
+            <p>Incluir em planejamento: Correção de arquitetura após liberação de topografia e subsequente correção de complementares.</p>
+        </div>
+        <div id="alert-2" class="alert-box">
+            <h3>Risco de Retrabalho</h3>
+            <p>Planejar correção de arquitetura e subsequente correção de complementares após liberação de Terraplenagem.</p>
+        </div>
+        <div id="alert-3" class="alert-box">
+            <h3>Risco de Retrabalho</h3>
+            <p>Planejar correção de complementares após ajuste de modelo de arquitetura.</p>
+        </div>
+        <div id="alert-4" class="alert-box">
+            <h3>Risco de Retrabalho</h3>
+            <p>Planejar correção de instalações após liberação de projeto de estruturas.</p>
+        </div>
+        <div id="alert-5" class="alert-box">
+            <h3>Risco de Retrabalho</h3>
+            <p>Projeto sujeito a imprecisão.</p>
+        </div>
+    </div>
+
+    <script>
+        function checkAlerts() {
+            function isWarn(rowName) {
+                const opt2 = document.getElementById(rowName + '-2').checked;
+                const opt3 = document.getElementById(rowName + '-3').checked;
+                return opt2 || opt3;
+            }
+            function isExcludedOnly(rowName) {
+                return document.getElementById(rowName + '-3').checked;
+            }
+
+            document.getElementById('alert-1').style.display = isWarn('r1') ? 'block' : 'none';
+            document.getElementById('alert-2').style.display = isWarn('r2') ? 'block' : 'none';
+            document.getElementById('alert-3').style.display = isWarn('r3') ? 'block' : 'none';
+            document.getElementById('alert-4').style.display = isWarn('r4') ? 'block' : 'none';
+            document.getElementById('alert-5').style.display = isExcludedOnly('r5') ? 'block' : 'none';
+        }
+        checkAlerts();
+    <\/script>
+</body>
+</html>
+            `;
+
+            // Abre uma nova janela/aba com o conteúdo acima
+            const win = window.open("", "SugestaoSistema", "width=1300,height=900,scrollbars=yes");
+            win.document.write(htmlContent);
+            win.document.close();
         }
     </script>
 
